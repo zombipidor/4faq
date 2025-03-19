@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ панель</title>
+</head>
+<body>
+    <h1>Админ панель</h1>
+    <a href="{{ url_for('logout') }}">Выход</a>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <h2>Список тредов</h2>
+    <ul>
+        {% for thread in threads %}
+            <li>
+                <strong>{{ thread.title }}</strong> (Автор: {{ thread.author }})
+                <a href="{{ url_for('delete_thread', id=thread.id) }}">Удалить</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% for comment in comments %}
+    <div class="comment">
+        <p>{{ comment.content }}</p>
+        <p><small>Автор: {{ comment.author }} | Создано: {{ comment.created_at }}</small></p>
+        <form action="{{ url_for('delete_comment', comment_id=comment.id) }}" method="POST">
+            <button type="submit">Удалить комментарий</button>
+        </form>
+    </div>
+{% endfor %}
+
+</body>
+</html>
